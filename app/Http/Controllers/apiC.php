@@ -325,7 +325,7 @@ class apiC extends Controller
             "pesan" => "Melakukan penyiraman manual",
         ];
 
-        return $data;
+        return $ket;
             
         // } catch (\Throwable $th) {
         //     //throw $th;
@@ -368,7 +368,7 @@ class apiC extends Controller
             "Pemupukan manual",
         ];
 
-        return $data;
+        return $ket;
             
         // } catch (\Throwable $th) {
         //     //throw $th;

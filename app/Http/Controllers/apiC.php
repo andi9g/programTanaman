@@ -271,8 +271,11 @@ class apiC extends Controller
 
         // try {
             $logs = logsM::orderBy("created_at", "desc")->first();
+            $sensor = sensorM::first();
 
             $data = [
+                "relay1" => $sensor->relay1,
+                "relay2" => $sensor->relay2,
                 "kelembaban" => empty($logs->sensorAnalog)?0:$logs->sensorAnalog,
                 "air" => empty($logs->jarakD5)?0:$logs->jarakD5,
                 "pupuk" => empty($logs->jarakD7)?0:$logs->jarakD7,
@@ -280,6 +283,92 @@ class apiC extends Controller
             ];
 
             return $data;
+            
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
+
+
+    }
+
+    public function siramair(Request $request, $token_sensor)
+    {
+             
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        // try {
+        $waktu = date("Y-m-d H:i:s");
+        
+        $sensor = sensorM::first();
+        $logs = logsM::orderBy("created_at", "desc")->first();
+
+        $sensor->update([
+            "relay1" => 1,
+        ]);
+
+        logsM::create([
+            "sensorDigital" => $logs->sensorDigital,
+            "sensorAnalog" => $logs->sensorAnalog,
+            "jarakD5" => $logs->jarakD5,
+            "jarakD7" => $logs->jarakD7,
+            "waktu" => $waktu,
+            "ket" => "Melakukan penyiraman manual",
+        ]);
+
+        
+        
+        $ket = [
+            "pesan" => "Melakukan penyiraman manual",
+        ];
+
+        return $data;
+            
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
+
+
+    }
+
+    public function sirampupuk(Request $request, $token_sensor)
+    {
+             
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        // try {
+        $waktu = date("Y-m-d H:i:s");
+        
+        $sensor = sensorM::first();
+        $logs = logsM::orderBy("created_at", "desc")->first();
+
+        $sensor->update([
+            "relay2" => 1,
+        ]);
+
+        logsM::create([
+            "sensorDigital" => $logs->sensorDigital,
+            "sensorAnalog" => $logs->sensorAnalog,
+            "jarakD5" => $logs->jarakD5,
+            "jarakD7" => $logs->jarakD7,
+            "waktu" => $waktu,
+            "ket" => "Pemupukan manual",
+        ]);
+
+        
+        
+        $ket = [
+            "Pemupukan manual",
+        ];
+
+        return $data;
             
         // } catch (\Throwable $th) {
         //     //throw $th;

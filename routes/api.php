@@ -29,3 +29,5 @@ Route::post("normalkan/data", "apiC@normalkan");
 //android
 Route::post('login', "apiC@login");
 Route::get('android/{token_sensor}/data', "apiC@data");
+Route::post('siram/{token_sensor}/air', "apiC@siramair");
+Route::post('siram/{token_sensor}/pupuk', "apiC@sirampupuk");

@@ -25,7 +25,7 @@ class Apiiot extends Migration
         });
 
         DB::table('perangkat')->insert([
-            "token" => uniqid(),
+            "token" => "65520e72b84cc",
             "hari" => 7,
             "jam" => 6,
             "menit" => 1,

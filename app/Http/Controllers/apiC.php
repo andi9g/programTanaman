@@ -6,6 +6,7 @@ use App\Models\sensorM;
 use App\Models\perangkatM;
 use App\Models\logsM;
 use App\Models\User;
+use Hash;
 use Illuminate\Http\Request;
 
 class apiC extends Controller

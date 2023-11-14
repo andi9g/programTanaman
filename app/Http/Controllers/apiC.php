@@ -133,7 +133,7 @@ class apiC extends Controller
                     $tanggalsekarang = strtotime(date("Y-m-d H:i:s"));
                     $tanggalsensor = strtotime(date("Y-m-d H:i:s", strtotime($logs->waktu))); 
                     $siramBerikutnya = strtotime("+".$siram_j." hours", $tanggalsensor);
-                    $pupukBerikutnya = strtotime("+".$pupuk_h." days", $tanggalsensor);
+                    $pupukBerikutnya = strtotime("+".$siram_j." hours", $tanggalsensor);
                     $berikutnya = strtotime("+".$menit." minutes", $tanggalsensor);
     
                     if($tanggalsekarang > $berikutnya) {
@@ -378,6 +378,46 @@ class apiC extends Controller
     }
     
 
+    public function pengaturan(Request $request, $token_sensor)
+    {
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        $pengaturan = perangkatM::first();
+        $data = [
+            "jam" => empty($pengaturan->jam)?0:$pengaturan->jam,
+            "menit" => empty($pengaturan->menit)?0:$pengaturan->menit,
+        ];
+
+        return $data;
+
+    }
+
+
+
+    public function updatepengaturan(Request $request, $token_sensor)
+    {
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        $pengaturan = perangkatM::first();
+
+        $req = $request->all();
+
+        $pengaturan->update($req);
+
+        $data = [
+            "pesan" => "Success",
+        ];
+
+        return $data;
+    }
     /**
      * Show the form for creating a new resource.
      *

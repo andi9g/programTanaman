@@ -269,21 +269,21 @@ class apiC extends Controller
             return abort(500, 'Kunci tidak valid');
         }
 
-        try {
+        // try {
             $logs = logsM::orderBy("created_at", "desc")->first();
 
             $data = [
-                "kelembaban" => $logs->sensorAnalog,
-                "jarakD5" => $logs->jarakD5,
-                "jarakD7" => $logs->jarakD7,
-                "ket" => $logs->ket,
+                "kelembaban" => empty($logs->sensorAnalog)?0:$logs->sensorAnalog,
+                "jarakD5" => empty($logs->jarakD5)?0:$logs->jarakD5,
+                "jarakD7" => empty($logs->jarakD7)?0:$logs->jarakD7,
+                "ket" => empty($logs->ket)?"tanpa keterangan":$logs->ket,
             ];
 
             return $data;
             
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
 
 
     }

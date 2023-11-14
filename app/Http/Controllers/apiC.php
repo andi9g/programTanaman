@@ -94,7 +94,7 @@ class apiC extends Controller
 
     public function kirim(Request $request)
     {
-        // try {
+        try {
             
             $token_sensor = $request->header('TokenSensor');
              
@@ -202,9 +202,9 @@ class apiC extends Controller
 
             return "finish";
 
-        // } catch (\Throwable $th) {
-        //     return abort(500, 'Kunci tidak valid');
-        // }
+        } catch (\Throwable $th) {
+            return abort(500, 'Kunci tidak valid');
+        }
         
     }
 
@@ -258,6 +258,36 @@ class apiC extends Controller
             return $pesan;
         }
     }
+
+
+    public function data(Request $request, $token_sensor)
+    {
+             
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        try {
+            $logs = logsM::orderBy("created_at", "desc")->first();
+
+            $data = [
+                "kelembaban" => $logs->sensorAnalog,
+                "jarakD5" => $logs->jarakD5,
+                "jarakD7" => $logs->jarakD7,
+                "ket" => $logs->ket,
+            ];
+
+            return $data;
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+
+    }
+    
 
     /**
      * Show the form for creating a new resource.

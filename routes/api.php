@@ -28,3 +28,4 @@ Route::post("normalkan/data", "apiC@normalkan");
 //android
 //android
 Route::post('login', "apiC@login");
+Route::post('android/{token_sensor}/data', "apiC@data");

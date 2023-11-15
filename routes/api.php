@@ -33,3 +33,4 @@ Route::post('siram/{token_sensor}/air', "apiC@siramair");
 Route::post('siram/{token_sensor}/pupuk', "apiC@sirampupuk");
 Route::get('pengaturan/{token_sensor}', "apiC@pengaturan");
 Route::post('pengaturan/{token_sensor}', "apiC@updatepengaturan");
+Route::get('histori/{token_sensor}', "apiC@histori");

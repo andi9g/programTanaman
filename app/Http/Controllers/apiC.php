@@ -423,9 +423,35 @@ class apiC extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function histori(Request $request, $token_sensor)
     {
-        //
+        $cek = perangkatM::where('token', $token_sensor)->count();
+        
+        if($cek === 0 ){
+            return abort(500, 'Kunci tidak valid');
+        }
+
+        $logs = logsM::orderBy("waktu", "desc")->get();
+
+        $data = [];
+        foreach ($logs as $log) {
+            if($log->sensorAnalog > 700) {
+                $kelembaban = "Tanah Normal";
+            }else {
+                $kelembaban = "Tanah Lembab";
+            }
+
+
+            $data[] = [
+                "kelembaban" => $kelembaban,
+                "air" => $log->jarakD5." Cm",
+                "pupuk" => $log->jarakD7." Cm",
+                "ket" => $log->ket,
+                "waktu" => \Carbon\Carbon::parse($log->waktu)->isoFormat("DD MMMM Y")." ".date("H:i:s", strtotime($log->waktu)),
+            ];
+        }
+
+        return $data;
     }
 
     /**

@@ -431,7 +431,7 @@ class apiC extends Controller
             return abort(500, 'Kunci tidak valid');
         }
 
-        $logs = logsM::orderBy("waktu", "desc")->get();
+        $logs = logsM::orderBy("waktu", "desc")->limit(20)->get();
 
         $data = [];
         foreach ($logs as $log) {

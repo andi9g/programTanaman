@@ -447,7 +447,7 @@ class apiC extends Controller
                 "air" => $log->jarakD5." Cm",
                 "pupuk" => $log->jarakD7." Cm",
                 "ket" => $log->ket,
-                "waktu" => \Carbon\Carbon::parse($log->waktu)->isoFormat("DD MMMM Y")." ".date("H:i:s", strtotime($log->waktu)),
+                "tanggal" => \Carbon\Carbon::parse($log->waktu)->isoFormat("DD MMMM Y")." ".date("H:i:s", strtotime($log->waktu)),
             ];
         }
 

@@ -442,7 +442,7 @@ class apiC extends Controller
             }
 
 
-            $data[] = [
+            $data = [
                 "kelembaban" => $kelembaban,
                 "air" => $log->jarakD5." Cm",
                 "pupuk" => $log->jarakD7." Cm",

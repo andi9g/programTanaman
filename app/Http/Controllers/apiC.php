@@ -269,24 +269,44 @@ class apiC extends Controller
             return abort(500, 'Kunci tidak valid');
         }
 
-        // try {
+        try {
             $logs = logsM::orderBy("created_at", "desc")->first();
             $sensor = sensorM::first();
+
+            $jarakD5 = (int)(($logs->jarakD5 / 1024) * 100);
+            $jarakD7 = (int)(($logs->jarakD7 / 1024) * 100);
+
+            if($logs->sensorAnalog > 800) {
+                $kelembaban = "Kering";
+            }else if($logs->sensorAnalog > 700) {
+                $kelembaban = "Lembab";
+            }else {
+                $kelembaban = "Basah";
+            }
 
             $data = [
                 "relay1" => $sensor->relay1,
                 "relay2" => $sensor->relay2,
-                "kelembaban" => empty($logs->sensorAnalog)?0:$logs->sensorAnalog,
-                "air" => empty($logs->jarakD5)?0:$logs->jarakD5,
-                "pupuk" => empty($logs->jarakD7)?0:$logs->jarakD7,
+                "kelembaban" => empty($kelembaban)?0:$$kelembaban,
+                "air" => empty($jarakD5)?0:$jarakD5,
+                "pupuk" => empty($jarakD7)?0:$jarakD7,
                 "ket" => empty($logs->ket)?"tanpa keterangan":$logs->ket,
             ];
 
             return $data;
             
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        // }
+        } catch (\Throwable $th) {
+            $data = [
+                "relay1" => "none",
+                "relay2" => "none",
+                "kelembaban" => "none",
+                "air" => "none",
+                "pupuk" => "none",
+                "ket" => "none",
+            ];
+            
+            return $data;
+        }
 
 
     }
@@ -435,10 +455,12 @@ class apiC extends Controller
 
         $data = [];
         foreach ($logs as $log) {
-            if($log->sensorAnalog > 700) {
-                $kelembaban = "Tanah Normal";
+            if($log->sensorAnalog > 800) {
+                $kelembaban = "Kering";
+            }else if($log->sensorAnalog > 700) {
+                $kelembaban = "Lembab";
             }else {
-                $kelembaban = "Tanah Lembab";
+                $kelembaban = "Basah";
             }
 
 

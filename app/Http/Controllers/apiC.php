@@ -409,6 +409,7 @@ class apiC extends Controller
         $data = [
             "jam" => empty($pengaturan->jam)?0:$pengaturan->jam,
             "menit" => empty($pengaturan->menit)?0:$pengaturan->menit,
+            "hari" => empty($pengaturan->hari)?0:$pengaturan->hari,
         ];
 
         return $data;

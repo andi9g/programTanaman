@@ -133,7 +133,7 @@ class apiC extends Controller
                     $tanggalsekarang = strtotime(date("Y-m-d H:i:s"));
                     $tanggalsensor = strtotime(date("Y-m-d H:i:s", strtotime($logs->waktu))); 
                     $siramBerikutnya = strtotime("+".$siram_j." hours", $tanggalsensor);
-                    $pupukBerikutnya = strtotime("+".$siram_j." hours", $tanggalsensor);
+                    $pupukBerikutnya = strtotime("+".$pupuk_h." days", $tanggalsensor);
                     $berikutnya = strtotime("+".$menit." minutes", $tanggalsensor);
     
                     if($tanggalsekarang > $berikutnya) {
@@ -269,7 +269,7 @@ class apiC extends Controller
             return abort(500, 'Kunci tidak valid');
         }
 
-        try {
+        // try {
             $logs = logsM::orderBy("created_at", "desc")->first();
             $sensor = sensorM::first();
 
@@ -295,18 +295,18 @@ class apiC extends Controller
 
             return $data;
             
-        } catch (\Throwable $th) {
-            $data = [
-                "relay1" => "none",
-                "relay2" => "none",
-                "kelembaban" => "none",
-                "air" => "none",
-                "pupuk" => "none",
-                "ket" => "none",
-            ];
-            
-            return $data;
-        }
+        // } catch (\Throwable $th) {
+        //     $data = [
+        //         "relay1" => "none",
+        //         "relay2" => "none",
+        //         "kelembaban" => "none",
+        //         "air" => "none",
+        //         "pupuk" => "none",
+        //         "ket" => "none",
+        //     ];
+
+        //     return $data;
+        // }
 
 
     }

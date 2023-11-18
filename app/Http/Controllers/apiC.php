@@ -19,7 +19,7 @@ class apiC extends Controller
 
      public function ambil(Request $request)
      {
-         try {
+        //  try {
              $token_sensor = $request->header('TokenSensor');
              
              $cek = perangkatM::where('token', $token_sensor)->count();
@@ -49,9 +49,9 @@ class apiC extends Controller
 
              return $data;
  
-         } catch (\Throwable $th) {
-            return abort(500, 'Kunci tidak valid');
-         }
+        //  } catch (\Throwable $th) {
+        //     return abort(500, 'Kunci tidak valid');
+        //  }
          
      }
 

@@ -269,7 +269,7 @@ class apiC extends Controller
             return abort(500, 'Kunci tidak valid');
         }
 
-        // try {
+        try {
             $logs = logsM::orderBy("created_at", "desc")->first();
             $sensor = sensorM::first();
 
@@ -295,18 +295,18 @@ class apiC extends Controller
 
             return $data;
             
-        // } catch (\Throwable $th) {
-        //     $data = [
-        //         "relay1" => "none",
-        //         "relay2" => "none",
-        //         "kelembaban" => "none",
-        //         "air" => "none",
-        //         "pupuk" => "none",
-        //         "ket" => "none",
-        //     ];
+        } catch (\Throwable $th) {
+            $data = [
+                "relay1" => 0,
+                "relay2" => 0,
+                "kelembaban" => "none",
+                "air" => "none",
+                "pupuk" => "none",
+                "ket" => "none",
+            ];
 
-        //     return $data;
-        // }
+            return $data;
+        }
 
 
     }

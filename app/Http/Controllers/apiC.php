@@ -286,9 +286,9 @@ class apiC extends Controller
             $data = [
                 "relay1" => $sensor->relay1,
                 "relay2" => $sensor->relay2,
-                "kelembaban" => empty($persen)?0:$persen."% / ".$kelembaban,
-                "air" => empty($logs->jarakD5)?0:$logs->jarakD5,
-                "pupuk" => empty($logs->jarakD7)?0:$logs->jarakD7,
+                "kelembaban" => $kelembaban,
+                "air" => empty($logs->jarakD5)?0:$logs->jarakD5." Cm",
+                "pupuk" => empty($logs->jarakD7)?0:$logs->jarakD7." Cm",
                 "ket" => empty($logs->ket)?"tanpa keterangan":$logs->ket,
             ];
 

@@ -283,8 +283,8 @@ class apiC extends Controller
                 $kelembaban = "Basah";
             }
 
-            $jarakD5 = empty($logs->jarakD5)?0:($logs->jarakD5 - 12);
-            $jarakD7 = empty($logs->jarakD7)?0:($logs->jarakD7 - 12);
+            $jarakD5 = 12 - empty($logs->jarakD5)?0:$logs->jarakD5;
+            $jarakD7 = 12 - empty($logs->jarakD7)?0:$logs->jarakD7;
 
             $data = [
                 "relay1" => $sensor->relay1,

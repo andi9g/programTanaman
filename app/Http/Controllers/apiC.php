@@ -283,12 +283,15 @@ class apiC extends Controller
                 $kelembaban = "Basah";
             }
 
+            $jarakD5 = empty($logs->jarakD5)?0:($logs->jarakD5 - 12);
+            $jarakD7 = empty($logs->jarakD7)?0:($logs->jarakD7 - 12);
+
             $data = [
                 "relay1" => $sensor->relay1,
                 "relay2" => $sensor->relay2,
                 "kelembaban" => $kelembaban,
-                "air" => empty($logs->jarakD5)?0:$logs->jarakD5." Cm",
-                "pupuk" => empty($logs->jarakD7)?0:$logs->jarakD7." Cm",
+                "air" => $jarakD5." Cm",
+                "pupuk" => $jarakD7." Cm",
                 "ket" => empty($logs->ket)?"tanpa keterangan":$logs->ket,
             ];
 

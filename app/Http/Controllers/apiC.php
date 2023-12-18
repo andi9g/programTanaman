@@ -94,7 +94,7 @@ class apiC extends Controller
 
     public function kirim(Request $request)
     {
-        try {
+        // try {
             
             $token_sensor = $request->header('TokenSensor');
              
@@ -113,6 +113,7 @@ class apiC extends Controller
             $sensorDigital = (int)$json[0]["sensorDigital"];
             $waktu = date("Y-m-d H:i:s", $json[0]["waktu"]);
 
+            
             $perangkat = perangkatM::first();
             
             $siram_j = $perangkat->jam; 
@@ -128,13 +129,32 @@ class apiC extends Controller
                 $logs = logsM::count();
                 
                 if($logs > 0) {
-                    $logs = logsM::orderBy("created_at", "desc")->first();
+                    $logs = logsM::orderBy("created_at", "desc")
+                    ->where("ket", "Melakukan penyiraman");
+                    $logs2 = logsM::orderBy("created_at", "desc")
+                    ->where("ket", "Melakukan Pemupukan");
+
+                    if($logs->count() > 0) {
+                        $logs = $logs->first();
+                    }else {
+                        $logs = logsM::orderBy("created_at", "desc")->first();
+                    }
+                    
+                    if($logs2->count() > 0) {
+                        $logs2 = $logs2->first();
+                    }else {
+                        $logs2 = logsM::orderBy("created_at", "desc")->first();
+                    }
+
+                    $next = logsM::orderBy("created_at", "desc")->first();
     
                     $tanggalsekarang = strtotime(date("Y-m-d H:i:s"));
                     $tanggalsensor = strtotime(date("Y-m-d H:i:s", strtotime($logs->waktu))); 
+                    $tanggalsensor2 = strtotime(date("Y-m-d H:i:s", strtotime($logs2->waktu))); 
+                    $tanggalsensor3 = strtotime(date("Y-m-d H:i:s", strtotime($next->waktu))); 
                     $siramBerikutnya = strtotime("+".$siram_j." hours", $tanggalsensor);
-                    $pupukBerikutnya = strtotime("+".$pupuk_h." days", $tanggalsensor);
-                    $berikutnya = strtotime("+".$menit." minutes", $tanggalsensor);
+                    $pupukBerikutnya = strtotime("+".$pupuk_h." days", $tanggalsensor2);
+                    $berikutnya = strtotime("+".$menit." minutes", $tanggalsensor3);
     
                     if($tanggalsekarang > $berikutnya) {
                         if($tanggalsekarang > $siramBerikutnya) {
@@ -164,7 +184,7 @@ class apiC extends Controller
                             "ket" => $ket,
                         ]);
         
-                        sensorM::update([
+                        sensorM::first()->update([
                             "relay1" => $relay1,
                             "relay2" => $relay2,
                             "waktu" => $waktu,
@@ -173,6 +193,7 @@ class apiC extends Controller
                     }
     
                 }else {
+                    
                     $relay1 = 1; 
                     $relay2 = 1; 
                     if($relay1 == $relay2 ){
@@ -202,9 +223,9 @@ class apiC extends Controller
 
             return "finish";
 
-        } catch (\Throwable $th) {
-            return abort(500, 'Kunci tidak valid');
-        }
+        // } catch (\Throwable $th) {
+        //     return abort(500, 'Kunci tidak valid');
+        // }
         
     }
 
@@ -275,16 +296,27 @@ class apiC extends Controller
 
             $persen = (int)(($logs->sensorAnalog / 1024) * 100);
 
-            if($logs->sensorAnalog > 800) {
+            if($logs->sensorAnalog > 880) {
                 $kelembaban = "Kering";
-            }else if($logs->sensorAnalog > 700) {
+            }else if($logs->sensorAnalog > 800) {
                 $kelembaban = "Lembab";
             }else {
                 $kelembaban = "Basah";
             }
 
-            $jarakD5 = 12 - empty($logs->jarakD5)?0:$logs->jarakD5;
-            $jarakD7 = 12 - empty($logs->jarakD7)?0:$logs->jarakD7;
+            $jarakD5 = 12 - (int)(empty($logs->jarakD5)?0:$logs->jarakD5);
+            $jarakD7 = 12 - (int)(empty($logs->jarakD7)?0:$logs->jarakD7);
+
+            if($jarakD5 < 0) {
+                $jarakD5 = 0;
+            }
+
+            if($jarakD7 < 0) {
+                $jarakD7 = 0;
+            }
+            
+
+            
 
             $data = [
                 "relay1" => $sensor->relay1,

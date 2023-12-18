@@ -210,7 +210,7 @@ class apiC extends Controller
                         "ket" => $ket,
                     ]);
     
-                    sensorM::update([
+                    sensorM::first()->update([
                         "relay1" => $relay1,
                         "relay2" => $relay2,
                         "waktu" => $waktu,
@@ -331,8 +331,8 @@ class apiC extends Controller
             
         } catch (\Throwable $th) {
             $data = [
-                "relay1" => 1,
-                "relay2" => 1,
+                "relay1" => 0,
+                "relay2" => 0,
                 "kelembaban" => "none",
                 "air" => "none",
                 "pupuk" => "none",

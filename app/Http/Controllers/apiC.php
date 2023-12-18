@@ -331,8 +331,8 @@ class apiC extends Controller
             
         } catch (\Throwable $th) {
             $data = [
-                "relay1" => 0,
-                "relay2" => 0,
+                "relay1" => 1,
+                "relay2" => 1,
                 "kelembaban" => "none",
                 "air" => "none",
                 "pupuk" => "none",

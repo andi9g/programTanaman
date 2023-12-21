@@ -296,12 +296,12 @@ class apiC extends Controller
 
             $persen = (int)(($logs->sensorAnalog / 1024) * 100);
 
-            if($logs->sensorAnalog > 880) {
-                $kelembaban = "Kering";
-            }else if($logs->sensorAnalog > 800) {
-                $kelembaban = "Lembab";
+            if($logs->sensorAnalog < 60) {
+                $kelembaban = $logs->sensorAnalog." | Kering";
+            }else if(($logs->sensorAnalog >= 60) && ($logs->sensorAnalog < 80)) {
+                $kelembaban = $logs->sensorAnalog." | Lembab";
             }else {
-                $kelembaban = "Basah";
+                $kelembaban = $logs->sensorAnalog." | Basah";
             }
 
             $jarakD5 = 12 - (int)(empty($logs->jarakD5)?0:$logs->jarakD5);
@@ -490,12 +490,12 @@ class apiC extends Controller
 
         $data = [];
         foreach ($logs as $log) {
-            if($log->sensorAnalog > 800) {
-                $kelembaban = "Kering";
-            }else if($log->sensorAnalog > 700) {
-                $kelembaban = "Lembab";
+            if($log->sensorAnalog < 60) {
+                $kelembaban = $log->sensorAnalog." | Kering";
+            }else if(($log->sensorAnalog >= 60) && ($log->sensorAnalog < 80)) {
+                $kelembaban = $log->sensorAnalog." | Lembab";
             }else {
-                $kelembaban = "Basah";
+                $kelembaban = $log->sensorAnalog." | Basah";
             }
 
 

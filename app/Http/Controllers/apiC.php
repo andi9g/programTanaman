@@ -157,7 +157,7 @@ class apiC extends Controller
                     $berikutnya = strtotime("+".$menit." minutes", $tanggalsensor3);
     
                     if($tanggalsekarang > $berikutnya) {
-                        if($tanggalsekarang > $siramBerikutnya) {
+                        if($tanggalsekarang > $siramBerikutnya && $sensorAnalog < 60) {
                             $relay1 = 1;
                         }
                         if($tanggalsekarang > $pupukBerikutnya) {

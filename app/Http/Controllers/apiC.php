@@ -137,13 +137,28 @@ class apiC extends Controller
                     if($logs->count() > 0) {
                         $logs = $logs->first();
                     }else {
-                        $logs = logsM::orderBy("created_at", "desc")->first();
+                        $logs = logsM::orderBy("created_at", "desc")
+                        ->where("ket", "Penyiraman dan pemupukan");
+
+                        if($logs->count() > 0) {
+                            $logs = $logs->first();
+                        }else {
+                            $logs = logsM::orderBy("created_at", "desc")->first();
+                        }
+
                     }
                     
                     if($logs2->count() > 0) {
                         $logs2 = $logs2->first();
                     }else {
-                        $logs2 = logsM::orderBy("created_at", "desc")->first();
+                        $logs2 = logsM::orderBy("created_at", "desc")
+                        ->where("ket", "Penyiraman dan pemupukan");
+
+                        if($logs2->count() > 0) {
+                            $logs2 = $logs2->first();
+                        }else {
+                            $logs2 = logsM::orderBy("created_at", "desc")->first();
+                        }
                     }
 
                     $next = logsM::orderBy("created_at", "desc")->first();
